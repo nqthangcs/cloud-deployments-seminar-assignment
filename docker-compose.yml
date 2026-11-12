@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:8080"
+    
+
+  backend:
+    build: ./backend
+    ports:
+      - "${FLASK_PORT}:${FLASK_PORT}"
+    environment:
+      FLASK_PORT: ${FLASK_PORT}
+      DB_URL: postgresql://${SQL_DB_USER}:${SQL_DB_PASSWORD}@sqldb:5432/${SQL_DB}
+    env_file:
+      - .env
+    depends_on:
+      sqldb:
+        condition: service_healthy
+
+  sqldb:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_USER: ${SQL_DB_USER}
+      POSTGRES_PASSWORD: ${SQL_DB_PASSWORD}
+      POSTGRES_DB: ${SQL_DB}
+      PGUSER: ${SQL_DB_USER}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQL_DB_USER} -d ${SQL_DB}"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres-data:
