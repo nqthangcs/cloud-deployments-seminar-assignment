@@ -10,15 +10,20 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'your_secret_key_here')
 
 # Enable CORS for React frontend
-cors_origin = os.getenv(
-    'CORS_ORIGIN',
-    'http://localhost:3000'
-)
+cors_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "CORS_ORIGIN",
+        "http://localhost:3000"
+    ).split(",")
+    if origin.strip()
+]
+
 CORS(
     app,
     resources={
         r"/*": {
-            "origins": cors_origin.split(","),
+            "origins": cors_origins,
         }
     }
 )

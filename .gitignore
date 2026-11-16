@@ -1,2 +1,13 @@
 .env
 .env.*
+
+# Node / Vite
+node_modules/
+web/dist/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+crash.log
