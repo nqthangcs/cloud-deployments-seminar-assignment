@@ -55,11 +55,11 @@ jobs:
         env:
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          AZURE_APP_RESOURCE_GROUP: ${{ vars.AZURE_APP_RESOURCE_GROUP }}
           CONTAINER_APP_NAME: ${{ vars.CONTAINER_APP_NAME }}
         run: |
           missing=0
-          for name in AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID AZURE_RESOURCE_GROUP CONTAINER_APP_NAME; do
+          for name in AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID AZURE_APP_RESOURCE_GROUP CONTAINER_APP_NAME; do
             if [ -z "${!name}" ]; then
               echo "::error::Variable $name is not set (Settings → Secrets and variables → Actions → Variables)"
               missing=1
@@ -77,5 +77,5 @@ jobs:
           az extension add --name containerapp --upgrade --only-show-errors
           az containerapp update \
             --name "${{ vars.CONTAINER_APP_NAME }}" \
-            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --resource-group "${{ vars.AZURE_APP_RESOURCE_GROUP }}" \
             --image "$IMAGE"

@@ -6,7 +6,7 @@ name: frontend
 on:
   push:
     branches: [main]
-    paths: ["frontend/**", ".github/workflows/deploy-web.yml"] # only when the frontend changes
+    paths: ["frontend/**", ".github/workflows/deploy-frontend.yml"] # only when the frontend changes
   pull_request: # build only: checks the change builds, deploys nothing
     paths: ["frontend/**"]
   workflow_dispatch: # "Run workflow" button in the Actions tab
