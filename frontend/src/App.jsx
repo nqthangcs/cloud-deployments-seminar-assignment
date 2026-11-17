@@ -58,7 +58,7 @@ export default function App() {
           <h1>
             Your Grades.
             <br />
-            <span>Your Voice Matters.</span>
+            <span>Your Problem, not mine.</span>
           </h1>
 
           <p>
